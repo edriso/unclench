@@ -1,0 +1,214 @@
+/* Unclench — calm slate, a soft orb. Ported from the prototype. Entrances animate
+   transform only (opacity stays 1). */
+@import 'tailwindcss';
+
+@theme {
+  --color-bg: #14181b;
+  --color-accent: #7fa0a8;
+  --font-serif: 'Newsreader', Georgia, serif;
+  --font-ui: 'Hanken Grotesk', system-ui, sans-serif;
+}
+
+:root {
+  --accent: #7fa0a8;
+  --serif: 'Newsreader', Georgia, serif;
+  --ui: 'Hanken Grotesk', system-ui, sans-serif;
+}
+[data-theme='slate'] {
+  --bg: #14181b;
+  --bg2: #0e1113;
+  --surface: #1d2327;
+  --surface2: #262d31;
+  --line: rgba(220, 235, 240, 0.1);
+  --ink: #e6edef;
+  --dim: #9aa8ac;
+  --faint: #5f6d71;
+  --on: #0c1012;
+  --soft: color-mix(in oklab, var(--accent) 18%, transparent);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: radial-gradient(130% 90% at 50% 10%, var(--bg), var(--bg2));
+  color: var(--ink);
+  font-family: var(--ui);
+  min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+}
+.stage {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.word {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--faint);
+  margin-bottom: clamp(26px, 7vh, 56px);
+}
+.h1 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(30px, 8vw, 42px);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+}
+.sub {
+  color: var(--dim);
+  font-size: 16px;
+  line-height: 1.55;
+  margin: 0 0 30px;
+  max-width: 320px;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 16px 30px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--on);
+  font-weight: 600;
+  font-size: 16.5px;
+  box-shadow: 0 12px 30px color-mix(in oklab, var(--accent) 28%, transparent);
+  transition:
+    filter 0.15s,
+    transform 0.1s;
+}
+.cta:hover {
+  filter: brightness(1.07);
+}
+.cta:active {
+  transform: scale(0.97);
+}
+.ghost {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--dim);
+  box-shadow: none;
+}
+.orb {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 42% 38%,
+    color-mix(in oklab, var(--accent) 70%, white),
+    var(--accent) 55%,
+    color-mix(in oklab, var(--accent) 32%, transparent)
+  );
+  box-shadow: 0 0 60px color-mix(in oklab, var(--accent) 35%, transparent);
+  margin-bottom: 28px;
+}
+.orb.go {
+  animation: breathe var(--bd, 6s) ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.78);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+.chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 26px;
+}
+.chip {
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--dim);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.chip.on {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--soft);
+}
+.stat {
+  font-family: var(--ui);
+  font-size: 13px;
+  color: var(--faint);
+  margin-top: 26px;
+}
+.corner {
+  position: fixed;
+  top: 18px;
+  inset-inline-end: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--faint);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.corner:hover {
+  color: var(--dim);
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(10px);
+  }
+  to {
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.55s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  .orb {
+    transform: scale(1);
+  }
+}
